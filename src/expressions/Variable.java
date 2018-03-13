@@ -8,7 +8,15 @@ public class Variable extends Expression{
     double x, max, min;
     
     public Variable(double max, double min){
+        if(max < min){
+            this.max = min;
+            this.min = max;
+        } else {
+            this.max = max;
+            this.min = min;
+        }
         
+        x = this.min;
     }
 
     public void setX(double x) {
