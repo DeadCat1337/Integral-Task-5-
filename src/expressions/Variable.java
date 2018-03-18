@@ -7,7 +7,7 @@ package expressions;
 public class Variable extends Expression{
     double x, max, min;
     
-    public Variable(double max, double min){
+    public Variable(double min, double max){
         if(max < min){
             this.max = min;
             this.min = max;
@@ -63,5 +63,10 @@ public class Variable extends Expression{
     @Override
     public double getValue() {
         return x;
+    }
+
+    @Override
+    public String toString() {
+        return "x";
     }
 }

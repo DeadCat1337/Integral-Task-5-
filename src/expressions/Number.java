@@ -16,5 +16,10 @@ public class Number extends Expression{
     public double getValue() {
         return v;
     }
+
+    @Override
+    public String toString() {
+        return "" + v;
+    }
     
 }

@@ -33,4 +33,21 @@ public class Operation extends Expression{
         else
             return 0;
     }
+
+    @Override
+    public String toString() {
+        //return "(" + a1.toString() + ") OPERATION (" + a2.toString() + ")";
+        if(o == PLUS)
+            return "(" + a1.toString() + ")+(" + a2.toString() + ")";
+        else if(o == MINUS)
+            return "(" + a1.toString() + ")-(" + a2.toString() + ")";
+        else if(o == MULT)
+            return "(" + a1.toString() + ")*(" + a2.toString() + ")";
+        else if(o == DIV)
+            return "(" + a1.toString() + ")/(" + a2.toString() + ")";
+        else if(o == POW)
+            return "(" + a1.toString() + ")^(" + a2.toString() + ")";
+        else
+            return "";
+    }
 }

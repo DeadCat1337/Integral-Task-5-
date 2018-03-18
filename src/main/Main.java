@@ -1,5 +1,6 @@
 package main;
 
+import expressions.Parser;
 import expressions.*;
 import integral.*;
 import java.util.Scanner;
@@ -14,7 +15,12 @@ public class Main {
         Scanner scn = new Scanner(System.in).useDelimiter("\n");
         String s = scn.next();
         System.out.println(s);
-        Parser.parse(s);
+        
+        Expression ex = Parser.parse(s);
+        
+        System.err.println(ex.toString());
+        
+        System.err.println("RESULT | X = 0 : " + ex.getValue());
         
         System.err.println("done");
     }
