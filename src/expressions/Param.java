@@ -38,5 +38,9 @@ public class Param extends Expression{
     public String toString() {
         return name;
     }
+
+    @Override
+    public void setX(double x) {
+    }
     
 }

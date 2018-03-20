@@ -50,4 +50,10 @@ public class Operation extends Expression{
         else
             return "";
     }
+
+    @Override
+    public void setX(double x) {
+        a1.setX(x);
+        a2.setX(x);
+    }
 }

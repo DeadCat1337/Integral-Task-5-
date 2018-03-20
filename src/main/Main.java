@@ -2,6 +2,7 @@ package main;
 
 import expressions.Parser;
 import expressions.*;
+import gui.Window;
 import integral.*;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ import java.util.Scanner;
 public class Main {
     
     public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in).useDelimiter("\n");
+        /*Scanner scn = new Scanner(System.in).useDelimiter("\n");
         String s = scn.next();
         System.out.println(s);
         
@@ -22,6 +23,7 @@ public class Main {
         
         System.err.println("RESULT | X = 0 : " + ex.getValue());
         
-        System.err.println("done");
+        System.err.println("done");*/
+        new Window();
     }
 }

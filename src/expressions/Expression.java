@@ -9,4 +9,6 @@ public abstract class Expression {
     
     @Override
     public abstract String toString();
+    
+    public abstract void setX(double x);
 }

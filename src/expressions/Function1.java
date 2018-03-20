@@ -30,7 +30,14 @@ public class Function1 extends Expression{
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(f == REV)
+            return "-(" + a.toString() + ")";
+        return null;
+    }
+
+    @Override
+    public void setX(double x) {
+        a.setX(x);
     }
     
 }

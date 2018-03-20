@@ -24,8 +24,18 @@ public class Parser {
                 i++;
                 continue;
             }            
-            if(c == '+' || c == '-' || c == '*' || c == '/' || c == '^'){
+            if(c == '+' || c == '*' || c == '/' || c == '^'){
                 i++;
+                continue;
+            }
+            
+            if(c == '-'){
+                if(i != 0){
+                    if(s.charAt(i-1) != '('){
+                        s = s.substring(0, i) + "+" + s.substring(i);
+                    }
+                }
+                i += 2;
                 continue;
             }
             
@@ -96,16 +106,15 @@ public class Parser {
                     return parseOperation(s.substring(0, i),
                             s.substring(i + 1), Operation.PLUS);
                 }
-                if (c == '-') {
+                /*if (c == '-') {
                     return parseOperation(s.substring(0, i),
                             s.substring(i + 1), Operation.MINUS);
-                }
+                }*/
             }
         }
         if (!was0) {
             return parseMain(s.substring(1, s.length() - 1));
         }
-        
         
         //4. проверить на средние операции
         n = 0;
@@ -154,15 +163,16 @@ public class Parser {
     }
     
     private static Expression parseOperation(String arg1, String arg2, int code){
-        if(code != Operation.MINUS)
-            return new Operation(parseMain(arg1), parseMain(arg2), code);
-        else{
-            if(arg1.isEmpty())
-                return new Function1();
-        }
+        return new Operation(parseMain(arg1), parseMain(arg2), code);
     }
     
     private static Expression parseSingle(String s){
+        if(s.isEmpty())
+            return null;
+        
+        if(s.charAt(0) == '-')
+            return new Function1(parseMain(s.substring(1)), Function1.REV);
+        
         if(s.equalsIgnoreCase("x"))
             return x;
         if(s.equalsIgnoreCase("e"))
@@ -180,6 +190,7 @@ public class Parser {
     
     static boolean check(String s){
         int n = 0;
+        
         for(int i = 0; i < s.length(); i++){
             if(s.charAt(i) == '(')
                 n++;

@@ -21,5 +21,9 @@ public class Number extends Expression{
     public String toString() {
         return "" + v;
     }
+
+    @Override
+    public void setX(double x) {
+    }
     
 }
