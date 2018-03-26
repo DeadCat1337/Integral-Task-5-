@@ -17,6 +17,7 @@ public class Parser {
         
         //1. удалить пробелы, проверить на символы, поставить *
         s = s.replaceAll(" ", "");
+        s = s.toLowerCase();
         int i = 0;
         while(i < s.length()){
             char c = s.charAt(i);
@@ -24,7 +25,8 @@ public class Parser {
                 i++;
                 continue;
             }            
-            if(c == '+' || c == '*' || c == '/' || c == '^'){
+            if(c == '+' || c == '*' || c == '/' || 
+                    c == '^' || c == '.' || c == ','){
                 i++;
                 continue;
             }
@@ -41,9 +43,15 @@ public class Parser {
             
             if(c == '('){
                 if (i != 0) {
-                    if (s.charAt(i - 1) == ')' || 
-                            Character.isDigit(s.charAt(i - 1)) || 
-                            Character.isLetter(s.charAt(i - 1))) {
+                    
+                    if(Function1.isEndedWithFunc(s.substring(0, i))){
+                        i++;
+                        continue;
+                    }
+                    
+                    char c1 = s.charAt(i-1);
+                    if (c == ')' || Character.isDigit(c) || 
+                            Character.isLetter(c1)) {
                         s = s.substring(0, i) + "*" + s.substring(i);
                         //System.out.println("|" + s + "|");
                     }
@@ -68,7 +76,7 @@ public class Parser {
             return null;
         }
         System.err.println("|" + s + "|");
-        x = new Variable(-10, 10);
+        x = new Variable();
         x.setX(0);
         return parseMain(s);
     }
@@ -172,7 +180,7 @@ public class Parser {
         
         if(s.charAt(0) == '-')
             return new Function1(parseMain(s.substring(1)), Function1.REV);
-        
+       
         if(s.equalsIgnoreCase("x"))
             return x;
         if(s.equalsIgnoreCase("e"))
@@ -182,6 +190,11 @@ public class Parser {
         
         if(Character.isDigit(s.charAt(0))){
             return new Number(Double.parseDouble(s));
+        }
+         
+        Expression f1 = Function1.tryParse(s);
+        if(f1 != null){
+            return f1;
         }
         
         return new Param(0, s);

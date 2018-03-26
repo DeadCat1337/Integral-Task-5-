@@ -114,10 +114,13 @@ public class Window extends JFrame implements ActionListener{
                 int vs[] = new int[getWidth()];
                 for(int i = 0; i < vs.length; i++){
                     ex.setX(((double)(i) - vs.length/2)/scale + gx);
+                    //System.out.println("i = " + i + ": X = " + ((double)(i) - vs.length/2)/scale + gx);
                     vs[i] = (int)(-(ex.getValue() - gy)*scale + getHeight()/2);
                     if(i >= 1){
                         g.drawLine(i-1, vs[i-1], i, vs[i]);
                     }
+                    
+                    //System.out.println("Y = " + (int)(-(ex.getValue() - gy)*scale + getHeight()/2));
                 }
                 
             }

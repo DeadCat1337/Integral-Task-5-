@@ -6,8 +6,10 @@ package expressions;
  */
 public class Variable extends Expression{
     double x, max, min;
+    boolean limited;
     
     public Variable(double min, double max){
+        limited = true;
         if(max < min){
             this.max = min;
             this.min = max;
@@ -18,14 +20,26 @@ public class Variable extends Expression{
         
         x = this.min;
     }
+    
+    public Variable(){
+        limited = false;
+        
+        x = 0;
+    }
 
     public void setX(double x) {
-        if(x > max)
-            this.x = max;
-        else if(x < min)
-            this.x = min;
-        else
+        if (limited) {
+            if (x > max) {
+                this.x = max;
+            } else if (x < min) {
+                this.x = min;
+            } else {
+                this.x = x;
+            }
+        } else {
             this.x = x;
+        }
+        
     }
 
     public void setMax(double max) {
@@ -47,6 +61,10 @@ public class Variable extends Expression{
         if(x < min)
             x = min;
     }
+    
+    public void setLimited(boolean lim){
+        limited = lim;
+    }
 
     public double getX() {
         return x;
@@ -58,6 +76,10 @@ public class Variable extends Expression{
 
     public double getMin() {
         return min;
+    }
+    
+    public boolean isLimited() {
+        return limited;
     }
 
     @Override
