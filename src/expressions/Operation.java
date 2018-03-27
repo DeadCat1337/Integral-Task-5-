@@ -20,35 +20,57 @@ public class Operation extends Expression{
 
     @Override
     public double getValue() {
-        if(o == PLUS)
-            return a1.getValue() + a2.getValue();
-        else if(o == MINUS)
-            return a1.getValue() - a2.getValue();
-        else if(o == MULT)
-            return a1.getValue() * a2.getValue();
-        else if(o == DIV)
-            return a1.getValue() / a2.getValue();
-        else if(o == POW)
-            return Math.pow(a1.getValue(), a2.getValue());
-        else
-            return 0;
+        switch (o) {
+            case PLUS:
+                return a1.getValue() + a2.getValue();
+            case MINUS:
+                return a1.getValue() - a2.getValue();
+            case MULT:
+                return a1.getValue() * a2.getValue();
+            case DIV:
+                return a1.getValue() / a2.getValue();
+            case POW:
+                return Math.pow(a1.getValue(), a2.getValue());
+            default:
+                return 0;
+        }
+    }
+
+    @Override
+    public double getValue(double x) {
+        switch (o) {
+            case PLUS:
+                return a1.getValue(x) + a2.getValue(x);
+            case MINUS:
+                return a1.getValue(x) - a2.getValue(x);
+            case MULT:
+                return a1.getValue(x) * a2.getValue(x);
+            case DIV:
+                return a1.getValue(x) / a2.getValue(x);
+            case POW:
+                return Math.pow(a1.getValue(x), a2.getValue(x));
+            default:
+                return 0;
+        }
     }
 
     @Override
     public String toString() {
         //return "(" + a1.toString() + ") OPERATION (" + a2.toString() + ")";
-        if(o == PLUS)
-            return "(" + a1.toString() + ")+(" + a2.toString() + ")";
-        else if(o == MINUS)
-            return "(" + a1.toString() + ")-(" + a2.toString() + ")";
-        else if(o == MULT)
-            return "(" + a1.toString() + ")*(" + a2.toString() + ")";
-        else if(o == DIV)
-            return "(" + a1.toString() + ")/(" + a2.toString() + ")";
-        else if(o == POW)
-            return "(" + a1.toString() + ")^(" + a2.toString() + ")";
-        else
-            return "";
+        switch (o) {
+            case PLUS:
+                return "(" + a1.toString() + ")+(" + a2.toString() + ")";
+            case MINUS:
+                return "(" + a1.toString() + ")-(" + a2.toString() + ")";
+            case MULT:
+                return "(" + a1.toString() + ")*(" + a2.toString() + ")";
+            case DIV:
+                return "(" + a1.toString() + ")/(" + a2.toString() + ")";
+            case POW:
+                return "(" + a1.toString() + ")^(" + a2.toString() + ")";
+            default:
+                return "";
+        }
     }
 
     @Override

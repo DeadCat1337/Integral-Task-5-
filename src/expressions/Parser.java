@@ -126,7 +126,7 @@ public class Parser {
         
         //4. проверить на средние операции
         n = 0;
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = s.length() - 1; i >= 0; i--) {
             c = s.charAt(i);
             if (c == '(') {
                 n++;

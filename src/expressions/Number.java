@@ -18,6 +18,11 @@ public class Number extends Expression{
     }
 
     @Override
+    public double getValue(double x) {
+        return v;
+    }
+
+    @Override
     public String toString() {
         return "" + v;
     }

@@ -6,10 +6,10 @@ package expressions;
  */
 public class Function1 extends Expression{
     public static final int REV = 1, SQRT = 2, LN = 3, LOG = 4, SIN = 5, 
-            COS = 6, TG = 7, CTG = 8, EXP = 9;
+            COS = 6, TG = 7, CTG = 8, EXP = 9, SIGN = 10, ABS = 11;
     
     private static final String[] FUNC = {"rev", "sqrt", "ln", "log", "sin", 
-        "cos", "tg", "ctg", "exp"};
+        "cos", "tg", "ctg", "exp", "sign", "abs"};
     
     private int f;
     Expression a;
@@ -33,27 +33,74 @@ public class Function1 extends Expression{
     
     @Override
     public double getValue() {
-        if(f == REV)
-            return -a.getValue();
-        else if(f == SQRT)
-            return Math.sqrt(a.getValue());
-        else if(f == LN)
-            return Math.log(a.getValue());
-        else if(f == LOG)
-            return Math.log10(a.getValue());
-        else if(f == SIN)
-            return Math.sin(a.getValue());
-        else if(f == COS)
-            return Math.cos(a.getValue());
-        else if(f == TG)
-            return Math.tan(a.getValue());
-        else if(f == CTG)
-            return 1/Math.tan(a.getValue());
-        else if(f == EXP)
-            return Math.exp(a.getValue());
-        else 
-            return Double.NaN;
-        
+        switch (f) {
+            case REV:
+                return -a.getValue();
+            case SQRT:
+                return Math.sqrt(a.getValue());
+            case LN:
+                return Math.log(a.getValue());
+            case LOG:
+                return Math.log10(a.getValue());
+            case SIN:
+                return Math.sin(a.getValue());
+            case COS:
+                return Math.cos(a.getValue());
+            case TG:
+                return Math.tan(a.getValue());
+            case CTG:
+                return 1 / Math.tan(a.getValue());
+            case EXP:
+                return Math.exp(a.getValue());
+            case SIGN:
+                if (a.getValue() > 0) {
+                    return 1;
+                } else if (a.getValue() < 0) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            case ABS:
+                return Math.abs(a.getValue());
+            default:
+                return Double.NaN;
+        }
+    }
+
+    @Override
+    public double getValue(double x) {
+        switch (f) {
+            case REV:
+                return -a.getValue(x);
+            case SQRT:
+                return Math.sqrt(a.getValue(x));
+            case LN:
+                return Math.log(a.getValue(x));
+            case LOG:
+                return Math.log10(a.getValue(x));
+            case SIN:
+                return Math.sin(a.getValue(x));
+            case COS:
+                return Math.cos(a.getValue(x));
+            case TG:
+                return Math.tan(a.getValue(x));
+            case CTG:
+                return 1 / Math.tan(a.getValue(x));
+            case EXP:
+                return Math.exp(a.getValue(x));
+            case SIGN:
+                if (a.getValue(x) > 0) {
+                    return 1;
+                } else if (a.getValue(x) < 0) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            case ABS:
+                return Math.abs(a.getValue(x));
+            default:
+                return Double.NaN;
+        }
     }
 
     @Override

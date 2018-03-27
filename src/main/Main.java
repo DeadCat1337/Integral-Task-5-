@@ -1,10 +1,6 @@
 package main;
 
-import expressions.Parser;
-import expressions.*;
 import gui.Window;
-import integral.*;
-import java.util.Scanner;
 
 /**
  *

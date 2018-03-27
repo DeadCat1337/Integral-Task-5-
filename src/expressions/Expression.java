@@ -7,6 +7,8 @@ package expressions;
 public abstract class Expression {
     public abstract double getValue();
     
+    public abstract double getValue(double x);
+    
     @Override
     public abstract String toString();
     

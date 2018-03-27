@@ -88,6 +88,11 @@ public class Variable extends Expression{
     }
 
     @Override
+    public double getValue(double x) {
+        return x;
+    }
+
+    @Override
     public String toString() {
         return "x";
     }

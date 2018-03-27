@@ -42,5 +42,10 @@ public class Param extends Expression{
     @Override
     public void setX(double x) {
     }
+
+    @Override
+    public double getValue(double x) {
+        return a;
+    }
     
 }
