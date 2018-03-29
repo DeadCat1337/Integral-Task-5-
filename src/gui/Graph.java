@@ -3,6 +3,8 @@ package gui;
 import expressions.Expression;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -11,11 +13,14 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JButton;
 
 public class Graph extends JButton implements MouseMotionListener, 
-        MouseWheelListener, MouseListener {
+        MouseWheelListener, MouseListener, KeyListener {
 
     private static final double SCALE_CHANGE = 1.2;
     
-    private double gx = 0, gy = 0, scale = 10;
+    private static final Color GRID_COLOR = Color.BLACK, GRAPH_COLOR = Color.RED,
+            BACK_COLOR = Color.GRAY, TICK_COLOR = Color.BLUE;
+    
+    private double gx = 0, gy = 0, scale = 50;
     private Expression ex;
     
     
@@ -29,6 +34,7 @@ public class Graph extends JButton implements MouseMotionListener,
         addMouseListener(this);
         addMouseWheelListener(this);
         addMouseMotionListener(this);
+        addKeyListener(this);
     }
 
     public void setExpression(Expression ex){
@@ -37,12 +43,77 @@ public class Graph extends JButton implements MouseMotionListener,
     
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(BACK_COLOR);
         g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.BLACK);
+        g.setColor(GRID_COLOR);
         g.drawLine((int) (gx * scale + getWidth() / 2), 0, (int) (gx * scale + getWidth() / 2), getHeight());
         g.drawLine(0, (int) (gy * scale + getHeight() / 2), getWidth(), (int) (gy * scale + getHeight() / 2));
-        g.setColor(Color.red);
+        
+        g.setColor(TICK_COLOR);
+        double len = calcDistX();
+        double dl = (gy * scale + getHeight() / 2) % len;
+        if(gx * scale + getWidth() / 2 < 5){
+            for (int i = 0; i < 10; i++) {
+                g.drawLine(0, (int)(len * i + dl), 10, (int)(len * i + dl));
+                
+                g.drawString("0123", 1, (int)(len * i + dl)-3);
+                
+            }
+        } else if(gx * scale + getWidth() / 2 > getWidth() - 5){
+            for (int i = 0; i < 10; i++) {
+                g.drawLine(getWidth() - 10, (int)(len * i + dl), 
+                        getWidth(), (int)(len * i + dl));
+                
+                g.drawString("0123", getWidth() - "0123".length()*g.getFont().getSize(), (int)(len * i + dl)-3);
+            }
+        }else if(gx * scale + getWidth() / 2 > getWidth() - "0123".length()*g.getFont().getSize()){
+            for (int i = 0; i < 10; i++) {
+                g.drawLine((int) (gx * scale + getWidth() / 2) - 5, 
+                        (int)(len * i + dl), 
+                        (int) (gx * scale + getWidth() / 2) + 5, 
+                        (int)(len * i + dl));
+                
+                g.drawString("0123", getWidth() - "0123".length()*g.getFont().getSize(), (int)(len * i + dl)-3);
+            }
+        } else {
+            for (int i = 0; i < 10; i++) {
+                g.drawLine((int) (gx * scale + getWidth() / 2) - 5, 
+                        (int)(len * i + dl), 
+                        (int) (gx * scale + getWidth() / 2) + 5, 
+                        (int)(len * i + dl));
+                
+                g.drawString("0123", (int) (gx * scale + getWidth() / 2), (int)(len * i + dl)-3);
+            }
+        }
+        
+        len = calcDistY();
+        dl = (gx * scale + getWidth() / 2) % len;
+        if(gy * scale + getHeight() / 2 < 5){
+            for (int i = 0; i < 10; i++) {
+                //g.drawLine(0, (int)(len * i + dl), 10, (int)(len * i + dl));
+                g.drawLine((int)(len * i + dl), 0, (int)(len * i + dl), 10);
+            }
+        } else if(gy * scale + getHeight() / 2 > getHeight()- 5){
+            for (int i = 0; i < 10; i++) {
+                g.drawLine((int)(len * i + dl), getHeight() - 10, (int)(len * i + dl), getHeight());
+            }
+        }else if(gy * scale + getHeight() / 2 > getHeight() - 30){
+            for (int i = 0; i < 10; i++) {
+                g.drawLine((int)(len * i + dl), 
+                        (int) (gy * scale + getHeight() / 2) - 5,  
+                        (int)(len * i + dl),
+                        (int) (gy * scale + getHeight() / 2) + 5);
+            }
+        } else {
+            for (int i = 0; i < 10; i++) {
+                g.drawLine((int)(len * i + dl), 
+                        (int) (gy * scale + getHeight() / 2) - 5,  
+                        (int)(len * i + dl),
+                        (int) (gy * scale + getHeight() / 2) + 5);
+            }
+        }
+        
+        g.setColor(GRAPH_COLOR);
         if (ex != null) {
             int vs[] = new int[getWidth()];
             for (int i = 0; i < vs.length; i++) {
@@ -65,6 +136,14 @@ public class Graph extends JButton implements MouseMotionListener,
         }
     }
 
+    private double calcDistX(){
+        return (double)(getHeight() - 1)/9;
+    }
+
+    private double calcDistY(){
+        return (double)(getWidth()- 1)/9;
+    }
+    
     @Override
     public void mouseDragged(MouseEvent e) {
         //setLocation(getX() + e.getPoint().x - nX, getY());
@@ -109,6 +188,23 @@ public class Graph extends JButton implements MouseMotionListener,
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        if(ke.getKeyChar() == ' '){
+            gx = 0;
+            gy = 0;
+            scale = 50;
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
     }
 
 }

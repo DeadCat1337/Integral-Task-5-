@@ -59,12 +59,12 @@ public class Window extends JFrame implements ActionListener{
         
         b_ok = new JButton("OK");
         b_ok.setLocation(10, 0);
-        b_ok.setSize(opt.getWidth() - 20, 25);
+        b_ok.setSize(opt.getWidth() - 10, 25);
         opt.add(b_ok);
         
         l_min = new JLabel("Min:");
         l_min.setLocation(10, b_ok.getHeight() + b_ok.getY() + 50);
-        l_min.setSize(opt.getWidth() - 20 - 110, 20);
+        l_min.setSize(opt.getWidth() - 20 - 95, 20);
         opt.add(l_min);
         
         l_max = new JLabel("Max:");
@@ -79,7 +79,7 @@ public class Window extends JFrame implements ActionListener{
         
         t_min = new JTextField();
         t_min.setLocation(20 + l_min.getWidth(), l_min.getY());
-        t_min.setSize(opt.getWidth() - 30 - l_min.getWidth(), 25);
+        t_min.setSize(opt.getWidth() - 20 - l_min.getWidth(), 25);
         opt.add(t_min);
         
         t_max = new JTextField();
