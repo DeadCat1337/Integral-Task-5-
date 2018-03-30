@@ -2,6 +2,7 @@ package gui;
 
 import expressions.Expression;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,7 +19,9 @@ public class Graph extends JButton implements MouseMotionListener,
     private static final double SCALE_CHANGE = 1.2;
     
     private static final Color GRID_COLOR = Color.BLACK, GRAPH_COLOR = Color.RED,
-            BACK_COLOR = Color.GRAY, TICK_COLOR = Color.BLUE;
+            BACK_COLOR = Color.WHITE, TICK_COLOR = Color.BLUE;
+    
+    private static final int PRES = 10000;
     
     private double gx = 0, gy = 0, scale = 50;
     private Expression ex;
@@ -46,34 +49,44 @@ public class Graph extends JButton implements MouseMotionListener,
         g.setColor(BACK_COLOR);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(GRID_COLOR);
-        g.drawLine((int) (gx * scale + getWidth() / 2), 0, (int) (gx * scale + getWidth() / 2), getHeight());
-        g.drawLine(0, (int) (gy * scale + getHeight() / 2), getWidth(), (int) (gy * scale + getHeight() / 2));
+        g.drawLine((int) (gx * scale + getWidth() / 2), 0, 
+                (int) (gx * scale + getWidth() / 2), getHeight());
+        g.drawLine(0, (int) (gy * scale + getHeight() / 2), 
+                getWidth(), (int) (gy * scale + getHeight() / 2));
         
         g.setColor(TICK_COLOR);
+        g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
         double len = calcDistX();
         double dl = (gy * scale + getHeight() / 2) % len;
+        double v = 1;
         if(gx * scale + getWidth() / 2 < 5){
             for (int i = 0; i < 10; i++) {
                 g.drawLine(0, (int)(len * i + dl), 10, (int)(len * i + dl));
-                
-                g.drawString("0123", 1, (int)(len * i + dl)-3);
+                v = (getHeight()/2 - (len * i + dl))/scale + gy;
+                v = (double)Math.round(v*PRES)/PRES;
+                g.drawString("" + v, 1, (int)(len * i + dl)-3);
                 
             }
         } else if(gx * scale + getWidth() / 2 > getWidth() - 5){
             for (int i = 0; i < 10; i++) {
                 g.drawLine(getWidth() - 10, (int)(len * i + dl), 
                         getWidth(), (int)(len * i + dl));
-                
-                g.drawString("0123", getWidth() - "0123".length()*g.getFont().getSize(), (int)(len * i + dl)-3);
+                v = (getHeight()/2 - (len * i + dl))/scale + gy;
+                v = (double)Math.round(v*PRES)/PRES;
+                g.drawString("" + v, getWidth() - ("" + v).length()*g.getFont().
+                        getSize(), (int)(len * i + dl)-3);
             }
-        }else if(gx * scale + getWidth() / 2 > getWidth() - "0123".length()*g.getFont().getSize()){
+        }else if(gx * scale + getWidth() / 2 > getWidth() - ("" + v).length()*
+                g.getFont().getSize()){
             for (int i = 0; i < 10; i++) {
                 g.drawLine((int) (gx * scale + getWidth() / 2) - 5, 
                         (int)(len * i + dl), 
                         (int) (gx * scale + getWidth() / 2) + 5, 
                         (int)(len * i + dl));
-                
-                g.drawString("0123", getWidth() - "0123".length()*g.getFont().getSize(), (int)(len * i + dl)-3);
+                v = (getHeight()/2 - (len * i + dl))/scale + gy;
+                v = (double)Math.round(v*PRES)/PRES;
+                g.drawString("" + v, getWidth() - ("" + v).length()*g.getFont().
+                        getSize(), (int)(len * i + dl)-3);
             }
         } else {
             for (int i = 0; i < 10; i++) {
@@ -81,35 +94,42 @@ public class Graph extends JButton implements MouseMotionListener,
                         (int)(len * i + dl), 
                         (int) (gx * scale + getWidth() / 2) + 5, 
                         (int)(len * i + dl));
-                
-                g.drawString("0123", (int) (gx * scale + getWidth() / 2), (int)(len * i + dl)-3);
+                v = (getHeight()/2 - (len * i + dl))/scale + gy;
+                v = (double)Math.round(v*PRES)/PRES;
+                g.drawString("" + v, (int) (gx * scale + getWidth() / 2), 
+                        (int)(len * i + dl)-3);
             }
         }
         
         len = calcDistY();
         dl = (gx * scale + getWidth() / 2) % len;
-        if(gy * scale + getHeight() / 2 < 5){
-            for (int i = 0; i < 10; i++) {
-                //g.drawLine(0, (int)(len * i + dl), 10, (int)(len * i + dl));
+        if(gy * scale + getHeight() / 2 < g.getFont().getSize()){
+            for (int i = -1; i < 10; i++) {
                 g.drawLine((int)(len * i + dl), 0, (int)(len * i + dl), 10);
+                v = (getWidth()/2 - (len * i + dl))/scale + gx;
+                v = (double)Math.round(v*PRES)/PRES;
+                g.drawString("" + v, (int)(len * i + dl), 
+                        g.getFont().getSize());
             }
         } else if(gy * scale + getHeight() / 2 > getHeight()- 5){
-            for (int i = 0; i < 10; i++) {
-                g.drawLine((int)(len * i + dl), getHeight() - 10, (int)(len * i + dl), getHeight());
+            for (int i = -1; i < 10; i++) {
+                g.drawLine((int)(len * i + dl), getHeight() - 10, 
+                        (int)(len * i + dl), getHeight());
+                v = (getWidth()/2 - (len * i + dl))/scale + gx;
+                v = (double)Math.round(v*PRES)/PRES;
+                g.drawString("" + v, (int)(len * i + dl), 
+                        getHeight() - 5);
             }
-        }else if(gy * scale + getHeight() / 2 > getHeight() - 30){
-            for (int i = 0; i < 10; i++) {
+        }else {
+            for (int i = -1; i < 10; i++) {
                 g.drawLine((int)(len * i + dl), 
                         (int) (gy * scale + getHeight() / 2) - 5,  
                         (int)(len * i + dl),
                         (int) (gy * scale + getHeight() / 2) + 5);
-            }
-        } else {
-            for (int i = 0; i < 10; i++) {
-                g.drawLine((int)(len * i + dl), 
-                        (int) (gy * scale + getHeight() / 2) - 5,  
-                        (int)(len * i + dl),
-                        (int) (gy * scale + getHeight() / 2) + 5);
+                v = (getWidth()/2 - (len * i + dl))/scale + gx;
+                v = (double)Math.round(v*PRES)/PRES;
+                g.drawString("" + v, (int)(len * i + dl), 
+                        (int) (gy * scale + getHeight() / 2) - 3);
             }
         }
         
